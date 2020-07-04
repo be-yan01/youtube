@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title lang="en">〇×げーむ</title>
+    </head>
+    <body>
+        <form name="board">
+            <input type="button" value="　" name="a" onClick="button_clicked(document.board.a);">
+            <input type="button" value="　" name="b" onClick="button_clicked(document.board.b);">
+            <input type="button" value="　" name="c" onClick="button_clicked(document.board.c);">
+            <br>
+            <input type="button" value="　" name="d" onClick="button_clicked(document.board.d);">
+            <input type="button" value="　" name="e" onClick="button_clicked(document.board.e);">
+            <input type="button" value="　" name="f" onClick="button_clicked(document.board.f);">
+            <br>
+            <input type="button" value="　" name="g" onClick="button_clicked(document.board.g);">
+            <input type="button" value="　" name="h" onClick="button_clicked(document.board.h);">
+            <input type="button" value="　" name="i" onClick="button_clicked(document.board.i);">
+            <br>
+        </form>
+
+        <script>
+            let click_count = 0;
+            function button_clicked(button) {
+                if (click_count % 2 == 0) {
+                    button.value = "〇";
+                } else {
+                    button.value = "×"
+                }
+                button.disabled = true;
+                click_count = click_count + 1;
+            }
+        </script>
+    </body>
+</html>
