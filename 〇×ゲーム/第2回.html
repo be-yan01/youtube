@@ -6,30 +6,33 @@
     </head>
     <body>
         <form name="board">
-            <input type="button" value="　" name="a" onClick="button_clicked(document.board.a);">
-            <input type="button" value="　" name="b" onClick="button_clicked(document.board.b);">
-            <input type="button" value="　" name="c" onClick="button_clicked(document.board.c);">
+            <input type="button" value="　" name="a" onClick="count_up(document.board.a);">
+            <input type="button" value="　" name="b" onClick="count_up(document.board.b);">
+            <input type="button" value="　" name="c" onClick="count_up(document.board.c);">
             <br>
-            <input type="button" value="　" name="d" onClick="button_clicked(document.board.d);">
-            <input type="button" value="　" name="e" onClick="button_clicked(document.board.e);">
-            <input type="button" value="　" name="f" onClick="button_clicked(document.board.f);">
+            <input type="button" value="　" name="d" onClick="count_up(document.board.d);">
+            <input type="button" value="　" name="e" onClick="count_up(document.board.e);">
+            <input type="button" value="　" name="f" onClick="count_up(document.board.f);">
             <br>
-            <input type="button" value="　" name="g" onClick="button_clicked(document.board.g);">
-            <input type="button" value="　" name="h" onClick="button_clicked(document.board.h);">
-            <input type="button" value="　" name="i" onClick="button_clicked(document.board.i);">
-            <br>
-        </form>
+            <input type="button" value="　" name="g" onClick="count_up(document.board.g);">
+            <input type="button" value="　" name="h" onClick="count_up(document.board.h);">
+            <input type="button" value="　" name="i" onClick="count_up(document.board.i);">
 
+        </form>
         <script>
-            let click_count = 0;
-            function button_clicked(button) {
-                if (click_count % 2 == 0) {
-                    button.value = "〇";
+            let counter = 0;
+            function count_up(btn){
+                counter = counter + 1;
+                console.log(counter);
+                btn.disabled = true;
+                if (counter%2 == 0) {
+                    console.log("×");
+                    btn.value = "×";
                 } else {
-                    button.value = "×"
+                    console.log("〇");
+                    btn.value = "〇";
                 }
-                button.disabled = true;
-                click_count = click_count + 1;
+
             }
         </script>
     </body>
