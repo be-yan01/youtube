@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title lang="en">〇×げーむ</title>
+        <style>
+            table {
+            }
+            td {
+                width: 100px;
+                height: 100px;
+                background-color: white;
+                text-align: center;
+                font-size:60px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="position: relative;">
+            <div style="background-color: black; width: 310px; height: 310px; position: absolute; left: 2px; top: 2px; "></div>
+            <table style="position: absolute;">
+                <tr>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                </tr>
+                <tr>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                </tr>
+                <tr>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                </tr>
+    
+            </table>
+        </div>
+        
+        <script>
+            let counter = 0;
+            function on_masu_clicked(td_element_object) {
+                if (td_element_object.innerText == "" && kachi_make_hantei() == null) {
+                    counter = counter + 1;
+                    console.log(counter);
+                    if (counter%2 == 0) {
+                        console.log("×");
+                        td_element_object.innerText = "×";
+                    } else {
+                        console.log("〇");
+                        td_element_object.innerText = "〇";
+                    }
+                    let kattahou = kachi_make_hantei();
+                    if (kattahou != null){
+                        setTimeout(alert, 1, kattahou + "の勝ち！！");
+                    } else {
+                        if (counter == 9) {
+                            setTimeout(alert, 1, "引き分けだよ～");
+                        }
+                    }
+                } 
+            }
+            function kachi_make_hantei() {
+                const cells = document.getElementsByTagName("td");
+                let result = null;
+                console.log(cells);
+                function jouken(a,b,c){
+                    if (cells[a].innerText != "" && cells[a].innerText == cells[b].innerText && cells[a].innerText == cells[c].innerText){
+                        result = cells[a].innerText;
+                        return true;
+                    } 
+                    return false;
+                }
+                jouken(0,1,2) || jouken(3,4,5) || jouken(6,7,8) || jouken(0,3,6) || jouken(1,4,7) || jouken(2,5,8) || jouken(0,4,8) || jouken(2,4,6);
+                return result;
+            }
+        </script>
+    </body>
+</html>
