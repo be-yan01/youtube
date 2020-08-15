@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title lang="en">〇×げーむ</title>
+        <style>
+            td {
+                width: 100px;
+                height: 100px;
+                background-color: white;
+                text-align: center;
+                font-size:60px;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="position: relative;">
+            <div style="background-color: black; width: 310px; height: 310px; position: absolute; left: 2px; top: 2px; "></div>
+            <table style="position: absolute;">
+                <tr>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                </tr>
+                <tr>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                </tr>
+                <tr>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                    <td onClick="on_masu_clicked(this);"></td>
+                </tr>
+    
+            </table>
+        </div>
+        
+        <script>
+            const cells = document.getElementsByTagName("td");
+            let is_game_over = false;
+            const lines_for_check = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
+
+            function on_masu_clicked(td_element_object) {
+                if (td_element_object.innerText != "") return;
+                
+                // 人間の番手
+                if (is_game_over) return;
+                td_element_object.innerText = "〇";
+                is_game_over = kachi_make_hantei();
+
+                // コンピュータの番手
+                if (is_game_over) return;
+                put_by_ai();
+                is_game_over = kachi_make_hantei();
+            }
+
+            function put_by_ai() {
+                for (const line of lines_for_check) {
+                    let batsu = 0, kuhaku = 0;
+                    for (const cell_index of line) {
+                        if      (cells[cell_index].innerText == "×") batsu++;
+                        else if (cells[cell_index].innerText == "" ) kuhaku++;
+                    }
+
+                    if (batsu == 2 && kuhaku == 1) {
+                        for (const cell_index of line) {
+                            if (cells[cell_index].innerText == "") {
+                                cells[cell_index].innerText = "×";
+                                return;
+                            }                                
+                        }
+                    }
+                }
+
+                for (const line of lines_for_check) {
+                    let maru = 0, kuhaku = 0;
+                    for (const cell_index of line) {
+                        if      (cells[cell_index].innerText == "〇") maru++;
+                        else if (cells[cell_index].innerText == "" ) kuhaku++;
+                    }
+                    if (maru == 2 && kuhaku == 1) {
+                        for (const cell_index of line) {
+                            if (cells[cell_index].innerText == "") {
+                                cells[cell_index].innerText = "×";
+                                return;
+                            }                                
+                        }
+                    }
+                }
+
+                for (const cell of cells) {
+                    // 1つでも空白のcellがあればfalseを返す(まだ引き分けてない)
+                    if (cell.innerText == "") {
+                        cell.innerText = "×";
+                        return;
+                    }
+                }
+            }
+
+            function kachi_make_hantei() {
+                //勝敗がついた場合をチェック
+                for (const line of lines_for_check) {
+                    const a = line[0], b = line[1], c = line[2];
+                    if (cells[a].innerText != "" && cells[a].innerText == cells[b].innerText && cells[a].innerText == cells[c].innerText){
+                        setTimeout(alert, 1, cells[a].innerText + "の勝ち！！");
+                        return true;
+                    } 
+                }
+
+                //勝敗がついてなく、引き分けてもいない場合をチェック
+                for (const cell of cells){
+                    // 1つでも空白のcellがあればfalseを返す(まだ引き分けてない)
+                    if (cell.innerText == ""){
+                        return false;
+                    }
+                }
+
+                //引き分けた場合の処理
+                setTimeout(alert, 1, "引き分けだよ～");
+                return true;
+            }
+            //put_by_ai()
+        </script>
+    </body>
+</html>
