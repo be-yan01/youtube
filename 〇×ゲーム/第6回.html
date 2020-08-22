@@ -64,58 +64,25 @@
                     return kachimake;
                 }
                 
-                if (turn == -1) {
-                    let best_score = -9999;
-                    for (const i in state) {
-                        if (state[i] == 0) {
-                            state[i] = turn;
-                            const score = ai_saiki(state, -turn);
-                            if (best_score < score * turn) { 
-                                best_score = score * turn;
-                                if (next_indexes) {
-                                    next_indexes.length = 0;
-                                    next_indexes.push(i);
-                                }
-                            } else if (next_indexes && best_score == score * turn) {
+                let best_score = -9999;
+                for (const i in state) {
+                    if (state[i] == 0) {
+                        state[i] = turn;
+                        const score = ai_saiki(state, -turn);
+                        if (best_score < score * turn) { 
+                            best_score = score * turn;
+                            if (next_indexes) {
+                                next_indexes.length = 0;
                                 next_indexes.push(i);
                             }
-                            state[i] = 0;
+                        } else if (next_indexes && best_score == score * turn) {
+                            next_indexes.push(i);
                         }
+                        state[i] = 0;
                     }
-                    return best_score * turn;
-
-                } else {
-                    for (const line of lines_for_check) {
-                        let maru = 0, batsu = 0, kuhaku = 0, kuhaku_basyo;
-                        for (const i of line) {
-                            switch (state[i]) {
-                                case  1: maru++;   break;
-                                case -1: batsu++;  break;
-                                case  0: kuhaku++; kuhaku_basyo = i; break;
-                            }
-                        }
-                        if (kuhaku == 1) {
-                            if (maru == 2) return 1;
-                            if (batsu == 2) {
-                                state[kuhaku_basyo] = 1;
-                                const score = ai_saiki(state, -turn);
-                                state[kuhaku_basyo] = 0;
-                                return score;
-                            }                               
-                        }
-                    }
-                    const blank_indexes = [];
-                    for (const i in state) {
-                        if (state[i] == 0) blank_indexes.push(i);
-                    }
-                    const index = random_select(blank_indexes);
-                    state[index] = 1;
-                    const score = ai_saiki(state, -turn);
-                    state[index] = 0;
-                    return score;
-
-                   
                 }
+                return best_score * turn;
+
             }
 
             function put_by_ai() {
