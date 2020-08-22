@@ -41,7 +41,6 @@
 
             let is_game_over = false;
             const lines_for_check = [[0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6]];
-
             function on_masu_clicked(td_element_object) {
                 if (td_element_object.innerText != "") return;
                 
@@ -55,16 +54,12 @@
                 put_by_ai();
                 is_game_over = check_game_over();
             }
-
             function create_current_state_array() {
                 return cells.map(cell => cell.innerText == "〇" ? +1 : (cell.innerText == "×" ? -1 : 0) );
             }    
-
             function ai_saiki(state, turn, next_index_obj) {
                 const kachimake = kachi_make_hantei(state);
                 if (kachimake !== undefined) {
-                    //const tmp = state.map(d => d == 1 ? "〇" : (d == -1 ? "×" : "　") );
-                    //console.log(tmp.slice(0, 3).join('|')+ "\n" + tmp.slice(3, 6).join('|') + "\n" + tmp.slice(6, 9).join('|'));
                     return kachimake;
                 }
                 let best_score = -9999;
@@ -81,55 +76,12 @@
                 }
                 return best_score * turn;
             }
-
             function put_by_ai() {
                 const obj = {};
-                ai_saiki(create_current_state_array(),-1,);
-                //ai_saiki([1,-1,0,-1,1,1,1,0,-1],-1,0);
-
-
-                for (const line of lines_for_check) {
-                    let batsu = 0, kuhaku = 0;
-                    for (const cell_index of line) {
-                        if      (cells[cell_index].innerText == "×") batsu++;
-                        else if (cells[cell_index].innerText == "" ) kuhaku++;
-                    }
-
-                    if (batsu == 2 && kuhaku == 1) {
-                        for (const cell_index of line) {
-                            if (cells[cell_index].innerText == "") {
-                                cells[cell_index].innerText = "×";
-                                return;
-                            }                                
-                        }
-                    }
-                }
-
-                for (const line of lines_for_check) {
-                    let maru = 0, kuhaku = 0;
-                    for (const cell_index of line) {
-                        if      (cells[cell_index].innerText == "〇") maru++;
-                        else if (cells[cell_index].innerText == "" ) kuhaku++;
-                    }
-                    if (maru == 2 && kuhaku == 1) {
-                        for (const cell_index of line) {
-                            if (cells[cell_index].innerText == "") {
-                                cells[cell_index].innerText = "×";
-                                return;
-                            }                                
-                        }
-                    }
-                }
-
-                for (const cell of cells) {
-                    // 1つでも空白のcellがあればfalseを返す(まだ引き分けてない)
-                    if (cell.innerText == "") {
-                        cell.innerText = "×";
-                        return;
-                    }
-                }
+                ai_saiki(create_current_state_array(), -1, obj);
+                cells[obj.index].innerText = "×";
+                return;
             }
-
             function kachi_make_hantei(state) {
                 //勝敗がついた場合をチェック
                 for (const line of lines_for_check) {
@@ -147,7 +99,6 @@
                 //引き分けた場合の処理
                 return 0;
             }
-
             function check_game_over() {
                 const result = kachi_make_hantei(create_current_state_array());
                 if (result === undefined) return false;
@@ -156,25 +107,7 @@
                 if (result == -1) setTimeout(alert, 100, "×の勝ち！！");
                 return true;
             }
-
-            function test(a) {
-                a = 1;
-            }
-            let a = 0;
-            let b = a;
-            a = 1;
-            console.log(b); //0
-
-            function test2(o) {
-                o.index = 1;
-            }
-            let obj1 = {a: 0};
-            let obj2 = obj1;
-            obj1.a = 1;
-            console.log(obj2.a); //
-
-
-
+            //ここをコメントアウトすれば先行/後攻が変わります。
             put_by_ai()
         </script>
     </body>
